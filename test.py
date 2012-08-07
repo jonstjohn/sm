@@ -1,4 +1,4 @@
-import unittest, httplib, collections, redis
+import unittest, httplib, redis
 
 tests = [
     {'op': 'POST', 'url': '/entry/ffff/3456', 'code': 200},
@@ -29,18 +29,14 @@ class SmTestCase(unittest.TestCase):
 
         # Iterate over tests
         for test in tests:
-            print(test)
             conn = httplib.HTTPConnection('localhost:8080')
             conn.request(test['op'], test['url'])
             response = conn.getresponse()
-            self.assertEquals(response.status, test['code'])
+            self.assertEquals(response.status, test['code']) # check status code
 
-            if 'output' in test:
+            if 'output' in test: # check output if needed
                 data = response.read()
-                if isinstance(test['output'], collections.Iterable):
-                    self.assertIn(data, test['output']) 
-                else:
-                    self.assertEquals(data, test['output'])
+                self.assertIn(data, test['output']) 
 
 if __name__ == '__main__':
     unittest.main()
