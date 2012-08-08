@@ -1,6 +1,7 @@
 import unittest, httplib, redis
 
 tests = [
+    {'op': 'GET', 'url': '/badurl', 'code': 400},
     {'op': 'POST', 'url': '/entry/ffff/3456', 'code': 200},
     {'op': 'POST', 'url': '/entry/', 'code': 400},
     {'op': 'POST', 'url': '/entry/12', 'code': 400},
@@ -29,6 +30,7 @@ class SmTestCase(unittest.TestCase):
 
         # Iterate over tests
         for test in tests:
+            print(test)
             conn = httplib.HTTPConnection('localhost:8080')
             conn.request(test['op'], test['url'])
             response = conn.getresponse()
