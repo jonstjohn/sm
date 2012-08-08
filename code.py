@@ -27,7 +27,7 @@ class entry_random:
             key = r.lindex('keys', random.randint(0, length-1))
             return "{0} -> {1}".format(key, r.hget('values', key))
         else:
-            return ''
+            raise web.notfound()
 
     # Handle post error for random entries
     def POST(self):
